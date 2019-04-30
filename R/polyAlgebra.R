@@ -323,6 +323,25 @@ deriv.pAlg = function(obj_, what) {
 }
 
 #' @export
+integr = function (obj_, ...) UseMethod("integr")
+
+#' @export
+integr.pAlg = function(obj_, what, a, b) {
+  if (!is.character(what)) stop("Can only integr pAlg and PV with respect to variables given as strings")
+  if (what %in% names(obj_)) {
+    k = obj_[,what] + 1
+  } else {
+    k = 1
+  }
+  v = (b^k - a^k) / k
+  obj_$.M = obj_$.M * v;
+  var = setdiff(names(obj_),what)
+  obj_ = obj_[,var,drop=FALSE]
+  attr(obj_,"var") = setdiff(var,".M")
+  aggregate(obj_)	
+}
+
+#' @export
 div.mod = function (x, ...) UseMethod("div.mod")
 
 #' @export
@@ -383,4 +402,19 @@ subst.gvector = function(obj_,...,simplify=TRUE)  {
   ret
 }
 
-
+#' @export
+t.gvector = function(obj_) {
+  if (length(dim(obj_)) == 1) {
+    dim(obj_) = c(1,dim(obj_))
+  } else if (length(dim(obj_)) == 2) {
+    I = 1:length(obj_)
+    dim(I) = dim(obj_)
+    I = t(I)
+    I = as.vector(I)
+    ret = obj_
+    ret@vec = ret@vec[I]
+    ret
+  } else {
+    stop("wrong dim in t.gvector")
+  }
+}

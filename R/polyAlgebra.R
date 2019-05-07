@@ -410,9 +410,9 @@ t.gvector = function(obj_) {
     I = 1:length(obj_)
     dim(I) = dim(obj_)
     I = t(I)
-    I = as.vector(I)
     ret = obj_
-    ret@vec = ret@vec[I]
+    dim(ret) = dim(I)
+    ret@vec = ret@vec[as.vector(I)]
     ret
   } else {
     stop("wrong dim in t.gvector")

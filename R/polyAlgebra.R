@@ -401,20 +401,3 @@ subst.gvector = function(obj_,...,simplify=TRUE)  {
   ret = new.gvector(ret, c(dim(obj_),len))
   ret
 }
-
-#' @export
-t.gvector = function(obj_) {
-  if (length(dim(obj_)) == 1) {
-    dim(obj_) = c(1,dim(obj_))
-  } else if (length(dim(obj_)) == 2) {
-    I = 1:length(obj_)
-    dim(I) = dim(obj_)
-    I = t(I)
-    ret = obj_
-    dim(ret) = dim(I)
-    ret@vec = ret@vec[as.vector(I)]
-    ret
-  } else {
-    stop("wrong dim in t.gvector")
-  }
-}

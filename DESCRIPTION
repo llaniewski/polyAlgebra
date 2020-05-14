@@ -11,3 +11,4 @@ Depends:
     gvector
 Suggests:
     testthat
+RoxygenNote: 7.1.0
